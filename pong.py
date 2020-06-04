@@ -32,8 +32,8 @@ ball.shape('square')
 ball.color('white')
 ball.penup()
 ball.goto(0, 0)
-ball.dx = 0.1
-ball.dy = 0.1
+ball.dx = 0.15
+ball.dy = 0.15
 
 # Controls
 def paddle_a_up():
@@ -80,6 +80,10 @@ wn.onkeypress(paddle_b_down, 'Down')
 def bounce():
     print('\a')
 
+def difficultyUp():
+    ball.dx *= 1.05
+    ball.dy *= 1.05
+
 # Main Game Loop
 while True:
     wn.update()
@@ -96,12 +100,14 @@ while True:
         ball.dy *= -1
         bounce()
     if ball.xcor() > 390:
+        difficultyUp()
         ball.goto(0, 0)
         ball.dx *= -1
         score_a += 1
         pen.clear()
         pen.write('PlayerA: {} | PlayerB: {}'.format(score_a, score_b), align='center', font=('Courier', 24, 'normal'))
     if ball.xcor() < -390:
+        difficultyUp()
         ball.goto(0, 0)
         ball.dx *= -1
         score_b += 1
