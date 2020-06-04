@@ -1,5 +1,4 @@
 import os, turtle
-from subprocess import call
 
 wn = turtle.Screen()
 wn.title('Pong')
@@ -85,8 +84,11 @@ def handleScore():
     pen.write('PlayerA: {} | PlayerB: {}'.format(score_a, score_b), align='center', font=('Courier', 24, 'normal'))
     ball.dx *= 1.05
     ball.dy *= 1.05
+    os.system('aplay ./announcer/ball-reset.wav&')
 
 # Main Game Loop
+os.system('aplay ./announcer/oddball.wav')
+os.system('aplay ./announcer/play-ball.wav&')
 while True:
     wn.update()
     ball.setx(ball.xcor() + ball.dx)
