@@ -1,4 +1,5 @@
-import turtle
+import os, turtle
+from subprocess import call
 
 wn = turtle.Screen()
 wn.title('Pong')
@@ -75,6 +76,10 @@ wn.onkeypress(paddle_a_down, 's')
 wn.onkeypress(paddle_b_up, 'Up')
 wn.onkeypress(paddle_b_down, 'Down')
 
+# Other Functions
+def bounce():
+    print('\a')
+
 # Main Game Loop
 while True:
     wn.update()
@@ -85,9 +90,11 @@ while True:
     if ball.ycor() > 290:
         ball.sety(290)
         ball.dy *= -1
+        bounce()
     if ball.ycor() < -290:
         ball.sety(-290)
         ball.dy *= -1
+        bounce()
     if ball.xcor() > 390:
         ball.goto(0, 0)
         ball.dx *= -1
@@ -105,6 +112,8 @@ while True:
     if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < paddle_b.ycor() + 50 and ball.ycor() > paddle_b.ycor() - 50):
         ball.setx(340)
         ball.dx *= -1
+        bounce()
     if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() > paddle_a.ycor() - 50 and ball.ycor() < paddle_a.ycor() + 50):
         ball.setx(-340)
         ball.dx *= -1
+        bounce()
