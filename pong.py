@@ -55,6 +55,19 @@ def paddle_b_down():
     y -= 20
     paddle_b.sety(y)
 
+# Pen
+pen = turtle.Turtle()
+pen.speed(0)
+pen.color('white')
+pen.penup()
+pen.hideturtle()
+pen.goto(0, 260)
+pen.write('PlayerA: 0 | PlayerB: 0', align='center', font=('Courier', 24, 'normal'))
+
+# Score
+score_a = 0
+score_b = 0
+
 # Keyboard Binding
 wn.listen()
 wn.onkeypress(paddle_a_up, 'w')
@@ -78,10 +91,16 @@ while True:
     if ball.xcor() > 390:
         ball.goto(0, 0)
         ball.dx *= -1
+        score_a += 1
+        pen.clear()
+        pen.write('PlayerA: {} | PlayerB: {}'.format(score_a, score_b), align='center', font=('Courier', 24, 'normal'))
     if ball.xcor() < -390:
         ball.goto(0, 0)
         ball.dx *= -1
-    
+        score_b += 1
+        pen.clear()
+        pen.write('PlayerA: {} | PlayerB: {}'.format(score_a, score_b), align='center', font=('Courier', 24, 'normal'))
+
     # Collisions
     if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < paddle_b.ycor() + 50 and ball.ycor() > paddle_b.ycor() - 50):
         ball.setx(340)
