@@ -35,27 +35,29 @@ ball.dx = 0.15
 ball.dy = 0.15
 
 # Controls
+screenBoundary = 240
+
 def paddle_a_up():
     y = paddle_a.ycor()
-    if y != 240:
+    if y != screenBoundary:
         y += 20
         paddle_a.sety(y)
 
 def paddle_a_down():
     y = paddle_a.ycor()
-    if y != -240:
+    if y != -screenBoundary:
         y -= 20
         paddle_a.sety(y)
 
 def paddle_b_up():
     y = paddle_b.ycor()
-    if y != 240:
+    if y != screenBoundary:
         y += 20
         paddle_b.sety(y)
 
 def paddle_b_down():
     y = paddle_b.ycor()
-    if y != -240:
+    if y != -screenBoundary:
         y -= 20
         paddle_b.sety(y)
 
@@ -86,9 +88,11 @@ def bounce():
 def handleScore():
     pen.clear()
     pen.write('PlayerA: {} | PlayerB: {}'.format(score_a, score_b), align='center', font=('Courier', 24, 'normal'))
+    os.system('aplay ./announcer/ball-reset.wav&')
+
+def difficultyUp():
     ball.dx *= 1.05
     ball.dy *= 1.05
-    os.system('aplay ./announcer/ball-reset.wav&')
 
 # Main Game Loop
 os.system('aplay ./announcer/oddball.wav')
@@ -109,11 +113,13 @@ while True:
         bounce()
     if ball.xcor() > 390:
         score_a += 1
+        difficultyUp()
         handleScore()
         ball.goto(0, 0)
         ball.dx *= -1
     if ball.xcor() < -390:
         score_b += 1
+        difficultyUp()
         handleScore()
         ball.goto(0, 0)
         ball.dx *= -1
