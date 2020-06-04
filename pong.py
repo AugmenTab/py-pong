@@ -80,7 +80,9 @@ wn.onkeypress(paddle_b_down, 'Down')
 def bounce():
     print('\a')
 
-def difficultyUp():
+def handleScore():
+    pen.clear()
+    pen.write('PlayerA: {} | PlayerB: {}'.format(score_a, score_b), align='center', font=('Courier', 24, 'normal'))
     ball.dx *= 1.05
     ball.dy *= 1.05
 
@@ -100,19 +102,15 @@ while True:
         ball.dy *= -1
         bounce()
     if ball.xcor() > 390:
-        difficultyUp()
-        ball.goto(0, 0)
-        ball.dx *= -1
         score_a += 1
-        pen.clear()
-        pen.write('PlayerA: {} | PlayerB: {}'.format(score_a, score_b), align='center', font=('Courier', 24, 'normal'))
-    if ball.xcor() < -390:
-        difficultyUp()
+        handleScore()
         ball.goto(0, 0)
         ball.dx *= -1
+    if ball.xcor() < -390:
         score_b += 1
-        pen.clear()
-        pen.write('PlayerA: {} | PlayerB: {}'.format(score_a, score_b), align='center', font=('Courier', 24, 'normal'))
+        handleScore()
+        ball.goto(0, 0)
+        ball.dx *= -1
 
     # Collisions
     if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < paddle_b.ycor() + 50 and ball.ycor() > paddle_b.ycor() - 50):
