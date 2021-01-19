@@ -1,4 +1,5 @@
-import os, turtle
+import os
+import turtle
 
 wn = turtle.Screen()
 wn.title('Pong')
@@ -35,31 +36,36 @@ ball.dx = 0.15
 ball.dy = 0.15
 
 # Controls
-screenBoundary = 240
+screen_boundary = 240
+
 
 def paddle_a_up():
     y = paddle_a.ycor()
-    if y != screenBoundary:
+    if y != screen_boundary:
         y += 20
         paddle_a.sety(y)
+
 
 def paddle_a_down():
     y = paddle_a.ycor()
-    if y != -screenBoundary:
+    if y != -screen_boundary:
         y -= 20
         paddle_a.sety(y)
 
+
 def paddle_b_up():
     y = paddle_b.ycor()
-    if y != screenBoundary:
+    if y != screen_boundary:
         y += 20
         paddle_b.sety(y)
 
+
 def paddle_b_down():
     y = paddle_b.ycor()
-    if y != -screenBoundary:
+    if y != -screen_boundary:
         y -= 20
         paddle_b.sety(y)
+
 
 # Pen
 pen = turtle.Turtle()
@@ -81,18 +87,22 @@ wn.onkeypress(paddle_a_down, 's')
 wn.onkeypress(paddle_b_up, 'Up')
 wn.onkeypress(paddle_b_down, 'Down')
 
+
 # Other Functions
 def bounce():
     print('\a')
 
-def handleScore():
+
+def handle_score():
     pen.clear()
     pen.write('PlayerA: {} | PlayerB: {}'.format(score_a, score_b), align='center', font=('Courier', 24, 'normal'))
     os.system('aplay ./announcer/ball-reset.wav&')
 
-def difficultyUp():
+
+def difficulty_up():
     ball.dx *= 1.05
     ball.dy *= 1.05
+
 
 # Main Game Loop
 os.system('aplay ./announcer/oddball.wav')
@@ -113,23 +123,25 @@ while True:
         bounce()
     if ball.xcor() > 390:
         score_a += 1
-        difficultyUp()
-        handleScore()
+        difficulty_up()
+        handle_score()
         ball.goto(0, 0)
         ball.dx *= -1
     if ball.xcor() < -390:
         score_b += 1
-        difficultyUp()
-        handleScore()
+        difficulty_up()
+        handle_score()
         ball.goto(0, 0)
         ball.dx *= -1
 
     # Collisions
-    if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < paddle_b.ycor() + 50 and ball.ycor() > paddle_b.ycor() - 50):
+    if (340 < ball.xcor() < 350) and \
+            (paddle_b.ycor() + 50 > ball.ycor() > paddle_b.ycor() - 50):
         ball.setx(340)
         ball.dx *= -1
         bounce()
-    if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() > paddle_a.ycor() - 50 and ball.ycor() < paddle_a.ycor() + 50):
+    if (-340 > ball.xcor() > -350) and \
+            (paddle_a.ycor() - 50 < ball.ycor() < paddle_a.ycor() + 50):
         ball.setx(-340)
         ball.dx *= -1
         bounce()
